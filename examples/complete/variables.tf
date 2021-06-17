@@ -1,4 +1,9 @@
-variable "example" {
+variable "region" {
   type        = string
-  description = "The value which will be passed to the example module"
+  description = "AWS region"
+}
+
+variable "prerequisites" {
+  type        = any
+  description = "Map containing maps of variables to pass to pre-requisite modules."
 }
