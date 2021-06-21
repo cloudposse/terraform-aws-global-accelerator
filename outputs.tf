@@ -3,7 +3,17 @@ output "global_accelerator_name" {
   value       = try(aws_globalaccelerator_accelerator.default[0].name, null)
 }
 
+output "global_accelerator_endpoint_group_ids" {
+  description = "Global Accelerator Endpoint Group IDs."
+  value       = [for global_accelerator_endpoint_group in aws_globalaccelerator_endpoint_group.default : global_accelerator_endpoint_group.id]
+}
+
+output "global_accelerator_listener_ids" {
+  description = "Global Accelerator Listener IDs."
+  value       = [for global_accelerator_listener in aws_globalaccelerator_listener.default : global_accelerator_listener.id]
+}
+
 output "global_accelerator_static_ips" {
-  description = "Global Static IPs owned by the Global Accelerator"
+  description = "Global Static IPs owned by the Global Accelerator."
   value       = try(aws_globalaccelerator_accelerator.default[0].ip_sets[0].ip_addresses, [])
 }
