@@ -2,52 +2,86 @@ provider "aws" {
   region = var.region
 }
 
-module "prerequisites" {
-  source = "./modules/prerequisites"
+module "vpc" {
+  source     = "cloudposse/vpc/aws"
+  version    = "0.18.2"
+
+  context    = module.this.context
+
+  cidr_block = var.vpc_cidr_block
+}
+
+module "subnets" {
+  source               = "cloudposse/dynamic-subnets/aws"
+  version              = "0.34.0"
+
+  context              = module.this.context
+
+  availability_zones   = var.availability_zones
+  vpc_id               = module.vpc.vpc_id
+  igw_id               = module.vpc.igw_id
+  cidr_block           = module.vpc.vpc_cidr_block
+}
+
+module "ecs" {
+  source = "./modules/ecs"
 
   context = module.this.context
 
-  region               = var.region
-  alb_settings         = var.prerequisites.alb
-  ecs_web_app_settings = var.prerequisites.ecs_web_app
-  vpc_settings         = var.prerequisites.vpc
-  subnet_settings      = var.prerequisites.subnets
-  s3_bucket_settings   = var.prerequisites.s3_bucket
+  region                  = var.region
+  alb_listener_port       = var.alb_listener_port
+  container_configuration = {
+    name               = var.ecs_configuration.container_name
+    image              = var.ecs_configuration.container_image
+    port               = var.ecs_configuration.container_port
+    memory             = var.ecs_configuration.container_memory
+    memory_reservation = var.ecs_configuration.container_memory_reservation
+    cpu                = var.ecs_configuration.container_cpu
+  }
+  health_check_path       = var.ecs_configuration.health_check_path
+  host_port               = var.ecs_configuration.host_port
+  vpc_cidr_block          = module.vpc.vpc_cidr_block
+  vpc_private_subnet_ids  = module.subnets.private_subnet_ids
+  vpc_public_subnet_ids   = module.subnets.public_subnet_ids
+  vpc_id                  = module.vpc.vpc_id
 }
 
-data "aws_alb_listener" "listener" {
-  arn = module.prerequisites.alb.http_listener_arn
+module "s3_bucket" {
+  source  = "cloudposse/s3-bucket/aws"
+  version = "0.38.0"
+
+  context = module.this.context
+
+  force_destroy = true
 }
 
 module "global_accelerator" {
   source = "../.."
 
+  context = module.this.context
+
   ip_address_type     = "IPV4"
   flow_logs_enabled   = true
   flow_logs_s3_prefix = "logs/"
-  flow_logs_s3_bucket = module.prerequisites.s3_bucket.bucket_id
-
-  context = module.this.context
+  flow_logs_s3_bucket = module.s3_bucket.bucket_id
 
   configurations = {
     alb = {
       listener = {
         port_range = [
           {
-            from_port = data.aws_alb_listener.listener.port
-            to_port   = data.aws_alb_listener.listener.port
+            from_port = var.alb_listener_port
+            to_port   = var.alb_listener_port
           }
         ]
       }
       endpoint_group = {
         endpoint_configuration = [
           {
-            endpoint_id = module.prerequisites.alb.alb_arn
+            endpoint_id = module.ecs.alb_arn
           }
         ]
       }
     }
   }
-
-  depends_on = [module.prerequisites]
 }
