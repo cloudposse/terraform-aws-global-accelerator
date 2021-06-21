@@ -48,6 +48,9 @@ module "alb" {
   access_logs_enabled                     = false
   deletion_protection_enabled             = false
   health_check_path                       = var.health_check_path
+  # without passing the following variable, this module uses a label for the tg name which appends "default" as an attribute,
+  # which in conjunction with the randId attribute in tests is too long.
+  target_group_name                       = module.ecs_label.id
 }
 
 module "ecs_alb_service_task" {
