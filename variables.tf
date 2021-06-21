@@ -3,9 +3,9 @@ variable "listeners" {
   list of listeners to configure for the global accelerator.
   For more information, see: [aws_globalaccelerator_listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_listener).
   eot
-  type    = list(object({
+  type = list(object({
     client_affinity = string
-    port_ranges     = list(object({
+    port_ranges = list(object({
       from_port = number
       to_port   = number
     }))

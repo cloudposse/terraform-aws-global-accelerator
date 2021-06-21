@@ -25,7 +25,7 @@ module "container_definition" {
   essential                    = true
   readonly_root_filesystem     = false
   environment                  = []
-  port_mappings                = [
+  port_mappings = [
     {
       containerPort = var.container_configuration.port
       hostPort      = var.host_port
@@ -41,16 +41,16 @@ module "alb" {
 
   context = module.ecs_label.context
 
-  vpc_id                                  = var.vpc_id
-  subnet_ids                              = var.vpc_public_subnet_ids
-  internal                                = false
-  http_enabled                            = true
-  access_logs_enabled                     = false
-  deletion_protection_enabled             = false
-  health_check_path                       = var.health_check_path
+  vpc_id                      = var.vpc_id
+  subnet_ids                  = var.vpc_public_subnet_ids
+  internal                    = false
+  http_enabled                = true
+  access_logs_enabled         = false
+  deletion_protection_enabled = false
+  health_check_path           = var.health_check_path
   # without passing the following variable, this module uses a label for the tg name which appends "default" as an attribute,
   # which in conjunction with the randId attribute in tests is too long.
-  target_group_name                       = module.ecs_label.id
+  target_group_name = module.ecs_label.id
 }
 
 module "ecs_alb_service_task" {
@@ -58,18 +58,18 @@ module "ecs_alb_service_task" {
   version = "0.57.0"
   context = module.ecs_label.context
 
-  container_definition_json          = module.container_definition.json_map_encoded_list
-  ecs_cluster_arn                    = aws_ecs_cluster.default.arn
-  launch_type                        = "FARGATE"
-  vpc_id                             = var.vpc_id
-  subnet_ids                         = var.vpc_private_subnet_ids
-  ignore_changes_task_definition     = false
-  network_mode                       = "awsvpc"
-  assign_public_ip                   = false
-  desired_count                      = 1
-  task_memory                        = var.container_configuration.memory
-  task_cpu                           = var.container_configuration.cpu
-  ecs_load_balancers                 = [
+  container_definition_json      = module.container_definition.json_map_encoded_list
+  ecs_cluster_arn                = aws_ecs_cluster.default.arn
+  launch_type                    = "FARGATE"
+  vpc_id                         = var.vpc_id
+  subnet_ids                     = var.vpc_private_subnet_ids
+  ignore_changes_task_definition = false
+  network_mode                   = "awsvpc"
+  assign_public_ip               = false
+  desired_count                  = 1
+  task_memory                    = var.container_configuration.memory
+  task_cpu                       = var.container_configuration.cpu
+  ecs_load_balancers = [
     {
       container_name   = var.container_configuration.name
       container_port   = var.container_configuration.port
@@ -102,7 +102,7 @@ module "ecs_alb_service_task" {
 
 resource "aws_alb_listener" "http_listener" {
   load_balancer_arn = module.alb.alb_arn
-  port = var.alb_listener_port
+  port              = var.alb_listener_port
   default_action {
     type             = "forward"
     target_group_arn = module.alb.default_target_group_arn
