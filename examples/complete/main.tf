@@ -3,24 +3,24 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "cloudposse/vpc/aws"
-  version    = "0.18.2"
+  source  = "cloudposse/vpc/aws"
+  version = "0.18.2"
 
-  context    = module.this.context
+  context = module.this.context
 
   cidr_block = var.vpc_cidr_block
 }
 
 module "subnets" {
-  source               = "cloudposse/dynamic-subnets/aws"
-  version              = "0.34.0"
+  source  = "cloudposse/dynamic-subnets/aws"
+  version = "0.34.0"
 
-  context              = module.this.context
+  context = module.this.context
 
-  availability_zones   = var.availability_zones
-  vpc_id               = module.vpc.vpc_id
-  igw_id               = module.vpc.igw_id
-  cidr_block           = module.vpc.vpc_cidr_block
+  availability_zones = var.availability_zones
+  vpc_id             = module.vpc.vpc_id
+  igw_id             = module.vpc.igw_id
+  cidr_block         = module.vpc.vpc_cidr_block
 }
 
 module "ecs" {
@@ -28,8 +28,8 @@ module "ecs" {
 
   context = module.this.context
 
-  region                  = var.region
-  alb_listener_port       = var.alb_listener_port
+  region            = var.region
+  alb_listener_port = var.alb_listener_port
   container_configuration = {
     name               = var.ecs_configuration.container_name
     image              = var.ecs_configuration.container_image
@@ -38,12 +38,12 @@ module "ecs" {
     memory_reservation = var.ecs_configuration.container_memory_reservation
     cpu                = var.ecs_configuration.container_cpu
   }
-  health_check_path       = var.ecs_configuration.health_check_path
-  host_port               = var.ecs_configuration.host_port
-  vpc_cidr_block          = module.vpc.vpc_cidr_block
-  vpc_private_subnet_ids  = module.subnets.private_subnet_ids
-  vpc_public_subnet_ids   = module.subnets.public_subnet_ids
-  vpc_id                  = module.vpc.vpc_id
+  health_check_path      = var.ecs_configuration.health_check_path
+  host_port              = var.ecs_configuration.host_port
+  vpc_cidr_block         = module.vpc.vpc_cidr_block
+  vpc_private_subnet_ids = module.subnets.private_subnet_ids
+  vpc_public_subnet_ids  = module.subnets.public_subnet_ids
+  vpc_id                 = module.vpc.vpc_id
 }
 
 module "s3_bucket" {
@@ -68,11 +68,11 @@ module "global_accelerator" {
   listeners = [
     {
       client_affinity = "NONE"
-      protocol = "TCP"
+      protocol        = "TCP"
       port_ranges = [
         {
           from_port = var.alb_listener_port
-          to_port = var.alb_listener_port
+          to_port   = var.alb_listener_port
         }
       ]
     }
@@ -85,7 +85,7 @@ module "endpoint_group" {
   context = module.this.context
 
   listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
-  config       = {
+  config = {
     endpoint_region = var.region
     endpoint_configuration = [
       {

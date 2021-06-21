@@ -8,24 +8,24 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "cloudposse/vpc/aws"
-  version    = "0.18.2"
+  source  = "cloudposse/vpc/aws"
+  version = "0.18.2"
 
-  context    = module.this.context
+  context = module.this.context
 
   cidr_block = var.vpc_cidr_block
 }
 
 module "subnets" {
-  source               = "cloudposse/dynamic-subnets/aws"
-  version              = "0.34.0"
+  source  = "cloudposse/dynamic-subnets/aws"
+  version = "0.34.0"
 
-  context              = module.this.context
+  context = module.this.context
 
-  availability_zones   = var.availability_zones
-  vpc_id               = module.vpc.vpc_id
-  igw_id               = module.vpc.igw_id
-  cidr_block           = module.vpc.vpc_cidr_block
+  availability_zones = var.availability_zones
+  vpc_id             = module.vpc.vpc_id
+  igw_id             = module.vpc.igw_id
+  cidr_block         = module.vpc.vpc_cidr_block
 }
 
 module "failover_label" {
@@ -37,10 +37,10 @@ module "failover_label" {
 }
 
 module "vpc_failover" {
-  source     = "cloudposse/vpc/aws"
-  version    = "0.18.2"
+  source  = "cloudposse/vpc/aws"
+  version = "0.18.2"
 
-  context    = module.failover_label.context
+  context = module.failover_label.context
 
   cidr_block = var.failover_vpc_cidr_block
 
@@ -50,15 +50,15 @@ module "vpc_failover" {
 }
 
 module "subnets_failover" {
-  source               = "cloudposse/dynamic-subnets/aws"
-  version              = "0.34.0"
+  source  = "cloudposse/dynamic-subnets/aws"
+  version = "0.34.0"
 
-  context              = module.failover_label.context
+  context = module.failover_label.context
 
-  availability_zones   = var.failover_availability_zones
-  vpc_id               = module.vpc_failover.vpc_id
-  igw_id               = module.vpc_failover.igw_id
-  cidr_block           = module.vpc_failover.vpc_cidr_block
+  availability_zones = var.failover_availability_zones
+  vpc_id             = module.vpc_failover.vpc_id
+  igw_id             = module.vpc_failover.igw_id
+  cidr_block         = module.vpc_failover.vpc_cidr_block
 
   providers = {
     aws = aws.failover
@@ -70,8 +70,8 @@ module "ecs" {
 
   context = module.this.context
 
-  region                  = var.region
-  alb_listener_port       = var.alb_listener_port
+  region            = var.region
+  alb_listener_port = var.alb_listener_port
   container_configuration = {
     name               = var.ecs_configuration.container_name
     image              = var.ecs_configuration.container_image
@@ -80,12 +80,12 @@ module "ecs" {
     memory_reservation = var.ecs_configuration.container_memory_reservation
     cpu                = var.ecs_configuration.container_cpu
   }
-  health_check_path       = var.ecs_configuration.health_check_path
-  host_port               = var.ecs_configuration.host_port
-  vpc_cidr_block          = module.vpc.vpc_cidr_block
-  vpc_private_subnet_ids  = module.subnets.private_subnet_ids
-  vpc_public_subnet_ids   = module.subnets.public_subnet_ids
-  vpc_id                  = module.vpc.vpc_id
+  health_check_path      = var.ecs_configuration.health_check_path
+  host_port              = var.ecs_configuration.host_port
+  vpc_cidr_block         = module.vpc.vpc_cidr_block
+  vpc_private_subnet_ids = module.subnets.private_subnet_ids
+  vpc_public_subnet_ids  = module.subnets.public_subnet_ids
+  vpc_id                 = module.vpc.vpc_id
 }
 
 module "ecs_failover" {
@@ -93,8 +93,8 @@ module "ecs_failover" {
 
   context = module.failover_label.context
 
-  region                  = var.failover_region
-  alb_listener_port       = var.alb_listener_port
+  region            = var.failover_region
+  alb_listener_port = var.alb_listener_port
   container_configuration = {
     name               = var.ecs_configuration.container_name
     image              = var.ecs_configuration.container_image
@@ -103,12 +103,12 @@ module "ecs_failover" {
     memory_reservation = var.ecs_configuration.container_memory_reservation
     cpu                = var.ecs_configuration.container_cpu
   }
-  health_check_path       = var.ecs_configuration.health_check_path
-  host_port               = var.ecs_configuration.host_port
-  vpc_cidr_block          = module.vpc_failover.vpc_cidr_block
-  vpc_private_subnet_ids  = module.subnets_failover.private_subnet_ids
-  vpc_public_subnet_ids   = module.subnets_failover.public_subnet_ids
-  vpc_id                  = module.vpc_failover.vpc_id
+  health_check_path      = var.ecs_configuration.health_check_path
+  host_port              = var.ecs_configuration.host_port
+  vpc_cidr_block         = module.vpc_failover.vpc_cidr_block
+  vpc_private_subnet_ids = module.subnets_failover.private_subnet_ids
+  vpc_public_subnet_ids  = module.subnets_failover.public_subnet_ids
+  vpc_id                 = module.vpc_failover.vpc_id
 
   providers = {
     aws = aws.failover
@@ -129,19 +129,19 @@ module "global_accelerator" {
 
   context = module.this.context
 
-  ip_address_type = "IPV4"
-  flow_logs_enabled = true
+  ip_address_type     = "IPV4"
+  flow_logs_enabled   = true
   flow_logs_s3_prefix = "logs/"
   flow_logs_s3_bucket = module.s3_bucket.bucket_id
 
   listeners = [
     {
       client_affinity = "NONE"
-      protocol = "TCP"
+      protocol        = "TCP"
       port_ranges = [
         {
           from_port = var.alb_listener_port
-          to_port = var.alb_listener_port
+          to_port   = var.alb_listener_port
         }
       ]
     }
@@ -154,7 +154,7 @@ module "endpoint_group" {
   context = module.this.context
 
   listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
-  config       = {
+  config = {
     endpoint_region = var.region
     endpoint_configuration = [
       {
@@ -170,7 +170,7 @@ module "endpoint_group_failover" {
   context = module.failover_label.context
 
   listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
-  config       = {
+  config = {
     endpoint_region = var.failover_region
     endpoint_configuration = [
       {
@@ -180,6 +180,6 @@ module "endpoint_group_failover" {
   }
 
   providers = {
-   aws = aws.failover
+    aws = aws.failover
   }
 }
