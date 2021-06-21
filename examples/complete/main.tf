@@ -24,7 +24,7 @@ module "subnets" {
 }
 
 module "ecs" {
-  source = "./modules/ecs"
+  source = "../modules/ecs"
 
   context = module.this.context
 
@@ -65,23 +65,32 @@ module "global_accelerator" {
   flow_logs_s3_prefix = "logs/"
   flow_logs_s3_bucket = module.s3_bucket.bucket_id
 
-  configurations = {
-    alb = {
-      listener = {
-        port_range = [
-          {
-            from_port = var.alb_listener_port
-            to_port   = var.alb_listener_port
-          }
-        ]
-      }
-      endpoint_group = {
-        endpoint_configuration = [
-          {
-            endpoint_id = module.ecs.alb_arn
-          }
-        ]
-      }
+  listeners = [
+    {
+      client_affinity = "NONE"
+      protocol = "TCP"
+      port_ranges = [
+        {
+          from_port = var.alb_listener_port
+          to_port = var.alb_listener_port
+        }
+      ]
     }
+  ]
+}
+
+module "endpoint_group" {
+  source = "../../modules/endpoint-group"
+
+  context = module.this.context
+
+  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  config       = {
+    endpoint_region = var.region
+    endpoint_configuration = [
+      {
+        endpoint_id = module.ecs.alb_arn
+      }
+    ]
   }
 }

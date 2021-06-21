@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: terraform-example-module
+name: terraform-aws-global-accelerator
 
 # Logo for this project
 #logo: docs/logo.png
@@ -17,10 +17,10 @@ license: "APACHE2"
 copyrights:
   - name: "Cloud Posse, LLC"
     url: "https://cloudposse.com"
-    year: "2020"
+    year: "2021"
 
 # Canonical GitHub repo
-github_repo: cloudposse/terraform-example-module
+github_repo: cloudposse/terraform-aws-global-accelerator
 
 # Badges to display
 badges:
@@ -57,8 +57,11 @@ references:
 
 # Short description of this project
 description: |-
-  This is `terraform-example-module` project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-  use when creating new repositories.
+  This module provisions AWS Global Accelerator. Multiple listeners can be specified when instantiating this module.
+  The `endpoint-group` submodules provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
+  in order to provision multiple Endpoint Groups.
+
+  The reason why `endpoint-group` is its own submodule is because an AWS Provider needs to be instantiated for the region the Endpoint Group's endpoints reside in.
 
 # Introduction to the project
 #introduction: |-
@@ -66,22 +69,131 @@ description: |-
 
 # How to use this module. Should be an easy example to copy and paste.
 usage: |-
-  For a complete example, see [examples/complete](examples/complete).
-  
-  For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest)
-  (which tests and deploys the example on AWS), see [test](test).
+  For a complete examples, see [examples/](examples/).
+
+  The following deploys Global Accelerator with endpoints in a single region:
 
   ```hcl
-  module "example" {
-    source = "https://github.com/cloudposse/terraform-example-module.git?ref=master"
-    example = "Hello world!"
+  module "global_accelerator" {
+    source = "cloudposse/global-accelerator/aws"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version     = "x.x.x"
+
+    context = module.this.context
+
+    ip_address_type     = "IPV4"
+    flow_logs_enabled   = true
+    flow_logs_s3_prefix = "logs/"
+    flow_logs_s3_bucket = module.s3_bucket.bucket_id
+
+    listeners = [
+      {
+        client_affinity = "NONE"
+        protocol = "TCP"
+        port_ranges = [
+          {
+            from_port = 80
+            to_port = 80
+          }
+        ]
+      }
+    ]
+  }
+
+  module "endpoint_group" {
+    source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version     = "x.x.x"
+
+    context = module.this.context
+
+    listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+    config       = {
+      endpoint_region = "us-east-2"
+      endpoint_configuration = [
+        {
+          endpoint_id = "arn:aws:elasticloadbalancing:us-east-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+        }
+      ]
+    }
+  }
+  ```
+
+  The following deploys Global Accelerator with endpoints in multiple regions:
+
+  `hcl
+  module "global_accelerator" {
+    source = "cloudposse/global-accelerator/aws"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version     = "x.x.x"
+
+    context = module.this.context
+
+    ip_address_type     = "IPV4"
+    flow_logs_enabled   = true
+    flow_logs_s3_prefix = "logs/"
+    flow_logs_s3_bucket = module.s3_bucket.bucket_id
+
+    listeners = [
+      {
+        client_affinity = "NONE"
+        protocol = "TCP"
+        port_ranges = [
+          {
+            from_port = 80
+            to_port = 80
+          }
+        ]
+      }
+    ]
+  }
+
+  module "endpoint_group" {
+    source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version     = "x.x.x"
+
+    context = module.this.context
+
+    listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+    config       = {
+      endpoint_region = "us-east-2"
+      endpoint_configuration = [
+        {
+          endpoint_id = "arn:aws:elasticloadbalancing:us-east-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+        }
+      ]
+    }
+  }
+
+  module "endpoint_group_failover" {
+    source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
+    # Cloud Posse recommends pinning every module to a specific version
+    # version     = "x.x.x"
+
+    context = module.failover_label.context
+
+    listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+    config       = {
+      endpoint_region = "us-west-2"
+      endpoint_configuration = [
+        {
+          endpoint_id = "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+        }
+      ]
+    }
+
+    providers = {
+     aws = aws.failover
+    }
   }
   ```
 
 # Example usage
 examples: |-
-  Here is an example of using this module:
-  - [`examples/complete`](https://github.com/cloudposse/terraform-example-module/) - complete example of using this module
+  Here are some examples of using this module:
+  - [`examples/complete`](examples/complete/) - complete example of using this module
+  - [`examples/multiple_endpoints`](examples/multiple_endpoints/) - multi-region example
 
 # How to get started quickly
 #quickstart: |-
@@ -94,5 +206,5 @@ include:
 
 # Contributors to this project
 contributors:
-  - name: "Erik Osterman"
-    github: "osterman"
+  - name: "Yonatan Koren"
+    github: "korenyoni"

@@ -17,6 +17,7 @@ init:
 test: init
 	go mod download
 	go test -v -timeout 60m -run TestExamplesComplete
+	go test -v -timeout 60m -run TestExamplesMultipleEndpoints
 
 ## Run tests in docker container
 docker/test:

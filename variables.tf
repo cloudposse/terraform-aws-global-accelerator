@@ -1,19 +1,17 @@
-variable "configurations" {
-  description = <<-EOT
-  Map of configurations for the Global Accelerator.
-  Each configuration's value for `listener` needs to be fully compliant with the `aws_globalaccelerator_listener` resource.
-  Each configuration's value for `endpoint_group` needs to be fully compliant with the `aws_globalaccelerator_listener` resource.
-  For more information, see: [aws_globalaccelerator_listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_listener) and
-  [aws_globalaccelerator_endpoint_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_endpoint_group).
-
-  Note that for `listener`, the value for `port_range` within each map should be a list.
-  Note that for `endpoint_group`, the values for `endpoint_configuration` and `port_override` within each map should be lists.
-  EOT
-  type = map(object({
-    listener       = any
-    endpoint_group = any
+variable "listeners" {
+  description = <<-eot
+  list of listeners to configure for the global accelerator.
+  For more information, see: [aws_globalaccelerator_listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_listener).
+  eot
+  type    = list(object({
+    client_affinity = string
+    port_ranges     = list(object({
+      from_port = number
+      to_port   = number
+    }))
+    protocol = string
   }))
-  default = {}
+  default = []
 }
 
 variable "flow_logs_enabled" {
