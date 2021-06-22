@@ -4,6 +4,7 @@ variable "listener_arn" {
 }
 
 variable "config" {
+  type        = any
   description = <<-eot
   Endpoint Group configuration.
 
@@ -11,6 +12,4 @@ variable "config" {
   note that the values for `endpoint_configuration` and `port_override` within each object in `endpoint_groups` should be lists.
   for more information, see: [aws_globalaccelerator_endpoint_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_endpoint_group).
   eot
-  type        = any
-  default     = {}
 }
