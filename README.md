@@ -1,5 +1,6 @@
+
 <!-- markdownlint-disable -->
-# terraform-example-module [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-example-module.svg)](https://github.com/cloudposse/terraform-example-module/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
+# terraform-aws-global-accelerator [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-example-module.svg)](https://github.com/cloudposse/terraform-example-module/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com) [![Discourse Forum](https://img.shields.io/discourse/https/ask.sweetops.com/posts.svg)](https://ask.sweetops.com/)
 <!-- markdownlint-restore -->
 
 [![README Header][readme_header_img]][readme_header_link]
@@ -27,9 +28,11 @@
 
 -->
 
-This is `terraform-example-module` project provides all the scaffolding for a typical well-built Cloud Posse module. It's a template repository you can
-use when creating new repositories.
+This module provisions AWS Global Accelerator. Multiple listeners can be specified when instantiating this module.
+The `endpoint-group` submodules provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
+in order to provision multiple Endpoint Groups.
 
+The reason why `endpoint-group` is its own submodule is because an AWS Provider needs to be instantiated for the region the Endpoint Group's endpoints reside in.
 
 ---
 
@@ -61,23 +64,22 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 
 
 
-
 ## Security & Compliance [<img src="https://cloudposse.com/wp-content/uploads/2020/11/bridgecrew.svg" width="250" align="right" />](https://bridgecrew.io/)
 
 Security scanning is graciously provided by Bridgecrew. Bridgecrew is the leading fully hosted, cloud-native solution providing continuous Terraform security and compliance.
 
 | Benchmark | Description |
 |--------|---------------|
-| [![Infrastructure Security](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=INFRASTRUCTURE+SECURITY) | Infrastructure Security Compliance |
-| [![CIS KUBERNETES](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/cis_kubernetes)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=CIS+KUBERNETES+V1.5) | Center for Internet Security, KUBERNETES Compliance |
-| [![CIS AWS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/cis_aws)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=CIS+AWS+V1.2) | Center for Internet Security, AWS Compliance |
-| [![CIS AZURE](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/cis_azure)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=CIS+AZURE+V1.1) | Center for Internet Security, AZURE Compliance |
-| [![PCI-DSS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/pci)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=PCI-DSS+V3.2) | Payment Card Industry Data Security Standards Compliance |
-| [![NIST-800-53](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/nist)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=NIST-800-53) | National Institute of Standards and Technology Compliance |
-| [![ISO27001](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/iso)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=ISO27001) | Information Security Management System, ISO/IEC 27001 Compliance |
-| [![SOC2](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/soc2)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=SOC2)| Service Organization Control 2 Compliance |
-| [![CIS GCP](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/cis_gcp)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=CIS+GCP+V1.1) | Center for Internet Security, GCP Compliance |
-| [![HIPAA](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-example-module/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-example-module&benchmark=HIPAA) | Health Insurance Portability and Accountability Compliance |
+| [![Infrastructure Security](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=INFRASTRUCTURE+SECURITY) | Infrastructure Security Compliance |
+| [![CIS KUBERNETES](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/cis_kubernetes)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=CIS+KUBERNETES+V1.5) | Center for Internet Security, KUBERNETES Compliance |
+| [![CIS AWS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/cis_aws)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=CIS+AWS+V1.2) | Center for Internet Security, AWS Compliance |
+| [![CIS AZURE](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/cis_azure)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=CIS+AZURE+V1.1) | Center for Internet Security, AZURE Compliance |
+| [![PCI-DSS](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/pci)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=PCI-DSS+V3.2) | Payment Card Industry Data Security Standards Compliance |
+| [![NIST-800-53](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/nist)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=NIST-800-53) | National Institute of Standards and Technology Compliance |
+| [![ISO27001](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/iso)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=ISO27001) | Information Security Management System, ISO/IEC 27001 Compliance |
+| [![SOC2](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/soc2)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=SOC2)| Service Organization Control 2 Compliance |
+| [![CIS GCP](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/cis_gcp)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=CIS+GCP+V1.1) | Center for Internet Security, GCP Compliance |
+| [![HIPAA](https://www.bridgecrew.cloud/badges/github/cloudposse/terraform-aws-global-accelerator/hipaa)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=cloudposse%2Fterraform-aws-global-accelerator&benchmark=HIPAA) | Health Insurance Portability and Accountability Compliance |
 
 
 
@@ -95,15 +97,123 @@ the registry shows many of our inputs as required when in fact they are optional
 The table below correctly indicates which inputs are required.
 
 
-For a complete example, see [examples/complete](examples/complete).
+For a complete examples, see [examples/](examples/).
 
-For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest)
-(which tests and deploys the example on AWS), see [test](test).
+The following deploys Global Accelerator with endpoints in a single region:
 
 ```hcl
-module "example" {
-  source = "https://github.com/cloudposse/terraform-example-module.git?ref=master"
-  example = "Hello world!"
+module "global_accelerator" {
+  source = "cloudposse/global-accelerator/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
+
+  context = module.this.context
+
+  ip_address_type     = "IPV4"
+  flow_logs_enabled   = true
+  flow_logs_s3_prefix = "logs/"
+  flow_logs_s3_bucket = module.s3_bucket.bucket_id
+
+  listeners = [
+    {
+      client_affinity = "NONE"
+      protocol = "TCP"
+      port_ranges = [
+        {
+          from_port = 80
+          to_port = 80
+        }
+      ]
+    }
+  ]
+}
+
+module "endpoint_group" {
+  source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
+
+  context = module.this.context
+
+  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  config       = {
+    endpoint_region = "us-east-2"
+    endpoint_configuration = [
+      {
+        endpoint_id = "arn:aws:elasticloadbalancing:us-east-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+      }
+    ]
+  }
+}
+```
+
+The following deploys Global Accelerator with endpoints in multiple regions:
+
+`hcl
+module "global_accelerator" {
+  source = "cloudposse/global-accelerator/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
+
+  context = module.this.context
+
+  ip_address_type     = "IPV4"
+  flow_logs_enabled   = true
+  flow_logs_s3_prefix = "logs/"
+  flow_logs_s3_bucket = module.s3_bucket.bucket_id
+
+  listeners = [
+    {
+      client_affinity = "NONE"
+      protocol = "TCP"
+      port_ranges = [
+        {
+          from_port = 80
+          to_port = 80
+        }
+      ]
+    }
+  ]
+}
+
+module "endpoint_group" {
+  source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
+
+  context = module.this.context
+
+  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  config       = {
+    endpoint_region = "us-east-2"
+    endpoint_configuration = [
+      {
+        endpoint_id = "arn:aws:elasticloadbalancing:us-east-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+      }
+    ]
+  }
+}
+
+module "endpoint_group_failover" {
+  source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
+
+  context = module.failover_label.context
+
+  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  config       = {
+    endpoint_region = "us-west-2"
+    endpoint_configuration = [
+      {
+        endpoint_id = "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+      }
+    ]
+  }
+
+  providers = {
+   aws = aws.failover
+  }
 }
 ```
 
@@ -112,8 +222,9 @@ module "example" {
 
 ## Examples
 
-Here is an example of using this module:
-- [`examples/complete`](https://github.com/cloudposse/terraform-example-module/) - complete example of using this module
+Here are some examples of using this module:
+- [`examples/complete`](examples/complete/) - complete example of using this module
+- [`examples/multiple_endpoints`](examples/multiple_endpoints/) - multi-region example
 
 
 
@@ -134,54 +245,70 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.13 |
-| local | >= 1.2 |
-| random | >= 2.2 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| random | >= 2.2 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.0 |
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.24.1 |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_globalaccelerator_accelerator.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_accelerator) | resource |
+| [aws_globalaccelerator_listener.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_listener) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| additional\_tag\_map | Additional tags for appending to tags\_as\_list\_of\_maps. Not added to `tags`. | `map(string)` | `{}` | no |
-| attributes | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
-| context | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_key_case": null,<br>  "label_order": [],<br>  "label_value_case": null,<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {}<br>}</pre> | no |
-| delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
-| enabled | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
-| environment | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
-| example | Example variable | `string` | `"hello world"` | no |
-| id\_length\_limit | Limit `id` to this many characters (minimum 6).<br>Set to `0` for unlimited length.<br>Set to `null` for default, which is `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
-| label\_key\_case | The letter case of label keys (`tag` names) (i.e. `name`, `namespace`, `environment`, `stage`, `attributes`) to use in `tags`.<br>Possible values: `lower`, `title`, `upper`.<br>Default value: `title`. | `string` | `null` | no |
-| label\_order | The naming order of the id output and Name tag.<br>Defaults to ["namespace", "environment", "stage", "name", "attributes"].<br>You can omit any of the 5 elements, but at least one must be present. | `list(string)` | `null` | no |
-| label\_value\_case | The letter case of output label values (also used in `tags` and `id`).<br>Possible values: `lower`, `title`, `upper` and `none` (no transformation).<br>Default value: `lower`. | `string` | `null` | no |
-| name | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
-| namespace | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
-| regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
-| stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
-| tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
+| <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional tags for appending to tags\_as\_list\_of\_maps. Not added to `tags`. | `map(string)` | `{}` | no |
+| <a name="input_attributes"></a> [attributes](#input\_attributes) | Additional attributes (e.g. `1`) | `list(string)` | `[]` | no |
+| <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_key_case": null,<br>  "label_order": [],<br>  "label_value_case": null,<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {}<br>}</pre> | no |
+| <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
+| <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
+| <a name="input_flow_logs_enabled"></a> [flow\_logs\_enabled](#input\_flow\_logs\_enabled) | Enable or disable flow logs for the Global Accelerator. | `bool` | `false` | no |
+| <a name="input_flow_logs_s3_bucket"></a> [flow\_logs\_s3\_bucket](#input\_flow\_logs\_s3\_bucket) | The name of the S3 Bucket for the Accelerator Flow Logs. Required if `var.flow_logs_enabled` is set to `true`. | `string` | `null` | no |
+| <a name="input_flow_logs_s3_prefix"></a> [flow\_logs\_s3\_prefix](#input\_flow\_logs\_s3\_prefix) | The Object Prefix within the S3 Bucket for the Accelerator Flow Logs. Required if `var.flow_logs_enabled` is set to `true`. | `string` | `null` | no |
+| <a name="input_id_length_limit"></a> [id\_length\_limit](#input\_id\_length\_limit) | Limit `id` to this many characters (minimum 6).<br>Set to `0` for unlimited length.<br>Set to `null` for default, which is `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
+| <a name="input_ip_address_type"></a> [ip\_address\_type](#input\_ip\_address\_type) | The address type to use for the Global Accelerator. At this moment, [only IPV4 is supported](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_accelerator#ip_address_type). | `string` | `"IPV4"` | no |
+| <a name="input_label_key_case"></a> [label\_key\_case](#input\_label\_key\_case) | The letter case of label keys (`tag` names) (i.e. `name`, `namespace`, `environment`, `stage`, `attributes`) to use in `tags`.<br>Possible values: `lower`, `title`, `upper`.<br>Default value: `title`. | `string` | `null` | no |
+| <a name="input_label_order"></a> [label\_order](#input\_label\_order) | The naming order of the id output and Name tag.<br>Defaults to ["namespace", "environment", "stage", "name", "attributes"].<br>You can omit any of the 5 elements, but at least one must be present. | `list(string)` | `null` | no |
+| <a name="input_label_value_case"></a> [label\_value\_case](#input\_label\_value\_case) | The letter case of output label values (also used in `tags` and `id`).<br>Possible values: `lower`, `title`, `upper` and `none` (no transformation).<br>Default value: `lower`. | `string` | `null` | no |
+| <a name="input_listeners"></a> [listeners](#input\_listeners) | list of listeners to configure for the global accelerator.<br>For more information, see: [aws\_globalaccelerator\_listener](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/globalaccelerator_listener). | <pre>list(object({<br>    client_affinity = string<br>    port_ranges = list(object({<br>      from_port = number<br>      to_port   = number<br>    }))<br>    protocol = string<br>  }))</pre> | `[]` | no |
+| <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `null` | no |
+| <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `null` | no |
+| <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
+| <a name="input_stage"></a> [stage](#input\_stage) | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| example | Example output |
-| id | ID of the created example |
-| random | Stable random number for this example |
-
+| <a name="output_global_accelerator_listener_ids"></a> [global\_accelerator\_listener\_ids](#output\_global\_accelerator\_listener\_ids) | Global Accelerator Listener IDs. |
+| <a name="output_global_accelerator_name"></a> [global\_accelerator\_name](#output\_global\_accelerator\_name) | Name of the Global Accelerator. |
+| <a name="output_global_accelerator_static_ips"></a> [global\_accelerator\_static\_ips](#output\_global\_accelerator\_static\_ips) | Global Static IPs owned by the Global Accelerator. |
 <!-- markdownlint-restore -->
 
 
 
 ## Share the Love
 
-Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-example-module)! (it helps us **a lot**)
+Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-aws-global-accelerator)! (it helps us **a lot**)
 
 Are you using this project or any of our other projects? Consider [leaving a testimonial][testimonial]. =)
+
 
 
 ## Related Projects
@@ -189,8 +316,6 @@ Are you using this project or any of our other projects? Consider [leaving a tes
 Check out these related projects.
 
 - [terraform-null-label](https://github.com/cloudposse/terraform-null-label) - Terraform module designed to generate consistent names and tags for resources. Use terraform-null-label to implement a strict naming convention.
-
-
 
 
 ## References
@@ -207,7 +332,7 @@ For additional context, refer to some of these links.
 
 **Got a question?** We got answers.
 
-File a GitHub [issue](https://github.com/cloudposse/terraform-example-module/issues), send us an [email][email] or join our [Slack Community][slack].
+File a GitHub [issue](https://github.com/cloudposse/terraform-aws-global-accelerator/issues), send us an [email][email] or join our [Slack Community][slack].
 
 [![README Commercial Support][readme_commercial_support_img]][readme_commercial_support_link]
 
@@ -255,7 +380,7 @@ Sign up for [our newsletter][newsletter] that covers everything on our technolog
 
 ### Bug Reports & Feature Requests
 
-Please use the [issue tracker](https://github.com/cloudposse/terraform-example-module/issues) to report any bugs or file feature requests.
+Please use the [issue tracker](https://github.com/cloudposse/terraform-aws-global-accelerator/issues) to report any bugs or file feature requests.
 
 ### Developing
 
@@ -275,7 +400,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2020-2021 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2021 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
@@ -335,43 +460,43 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 ### Contributors
 
 <!-- markdownlint-disable -->
-|  [![Erik Osterman][osterman_avatar]][osterman_homepage]<br/>[Erik Osterman][osterman_homepage] |
+|  [![Yonatan Koren][korenyoni_avatar]][korenyoni_homepage]<br/>[Yonatan Koren][korenyoni_homepage] |
 |---|
 <!-- markdownlint-restore -->
 
-  [osterman_homepage]: https://github.com/osterman
-  [osterman_avatar]: https://img.cloudposse.com/150x150/https://github.com/osterman.png
+  [korenyoni_homepage]: https://github.com/korenyoni
+  [korenyoni_avatar]: https://img.cloudposse.com/150x150/https://github.com/korenyoni.png
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
 
   [logo]: https://cloudposse.com/logo-300x69.svg
-  [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=docs
-  [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=website
-  [github]: https://cpco.io/github?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=github
-  [jobs]: https://cpco.io/jobs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=jobs
-  [hire]: https://cpco.io/hire?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=hire
-  [slack]: https://cpco.io/slack?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=slack
-  [linkedin]: https://cpco.io/linkedin?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=linkedin
-  [twitter]: https://cpco.io/twitter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=twitter
-  [testimonial]: https://cpco.io/leave-testimonial?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=testimonial
-  [office_hours]: https://cloudposse.com/office-hours?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=office_hours
-  [newsletter]: https://cpco.io/newsletter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=newsletter
-  [discourse]: https://ask.sweetops.com/?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=discourse
-  [email]: https://cpco.io/email?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=email
-  [commercial_support]: https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=commercial_support
-  [we_love_open_source]: https://cpco.io/we-love-open-source?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=we_love_open_source
-  [terraform_modules]: https://cpco.io/terraform-modules?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=terraform_modules
+  [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=docs
+  [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=website
+  [github]: https://cpco.io/github?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=github
+  [jobs]: https://cpco.io/jobs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=jobs
+  [hire]: https://cpco.io/hire?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=hire
+  [slack]: https://cpco.io/slack?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=slack
+  [linkedin]: https://cpco.io/linkedin?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=linkedin
+  [twitter]: https://cpco.io/twitter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=twitter
+  [testimonial]: https://cpco.io/leave-testimonial?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=testimonial
+  [office_hours]: https://cloudposse.com/office-hours?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=office_hours
+  [newsletter]: https://cpco.io/newsletter?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=newsletter
+  [discourse]: https://ask.sweetops.com/?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=discourse
+  [email]: https://cpco.io/email?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=email
+  [commercial_support]: https://cpco.io/commercial-support?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=commercial_support
+  [we_love_open_source]: https://cpco.io/we-love-open-source?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=we_love_open_source
+  [terraform_modules]: https://cpco.io/terraform-modules?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=terraform_modules
   [readme_header_img]: https://cloudposse.com/readme/header/img
-  [readme_header_link]: https://cloudposse.com/readme/header/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=readme_header_link
+  [readme_header_link]: https://cloudposse.com/readme/header/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=readme_header_link
   [readme_footer_img]: https://cloudposse.com/readme/footer/img
-  [readme_footer_link]: https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=readme_footer_link
+  [readme_footer_link]: https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=readme_footer_link
   [readme_commercial_support_img]: https://cloudposse.com/readme/commercial-support/img
-  [readme_commercial_support_link]: https://cloudposse.com/readme/commercial-support/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-example-module&utm_content=readme_commercial_support_link
-  [share_twitter]: https://twitter.com/intent/tweet/?text=terraform-example-module&url=https://github.com/cloudposse/terraform-example-module
-  [share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-example-module&url=https://github.com/cloudposse/terraform-example-module
-  [share_reddit]: https://reddit.com/submit/?url=https://github.com/cloudposse/terraform-example-module
-  [share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/cloudposse/terraform-example-module
-  [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-example-module
-  [share_email]: mailto:?subject=terraform-example-module&body=https://github.com/cloudposse/terraform-example-module
-  [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-example-module?pixel&cs=github&cm=readme&an=terraform-example-module
+  [readme_commercial_support_link]: https://cloudposse.com/readme/commercial-support/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-global-accelerator&utm_content=readme_commercial_support_link
+  [share_twitter]: https://twitter.com/intent/tweet/?text=terraform-aws-global-accelerator&url=https://github.com/cloudposse/terraform-aws-global-accelerator
+  [share_linkedin]: https://www.linkedin.com/shareArticle?mini=true&title=terraform-aws-global-accelerator&url=https://github.com/cloudposse/terraform-aws-global-accelerator
+  [share_reddit]: https://reddit.com/submit/?url=https://github.com/cloudposse/terraform-aws-global-accelerator
+  [share_facebook]: https://facebook.com/sharer/sharer.php?u=https://github.com/cloudposse/terraform-aws-global-accelerator
+  [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-aws-global-accelerator
+  [share_email]: mailto:?subject=terraform-aws-global-accelerator&body=https://github.com/cloudposse/terraform-aws-global-accelerator
+  [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-aws-global-accelerator?pixel&cs=github&cm=readme&an=terraform-aws-global-accelerator

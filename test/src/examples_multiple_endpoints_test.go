@@ -12,7 +12,7 @@ import (
 )
 
 // Test the Terraform module in examples/complete using Terratest.
-func TestExamplesComplete(t *testing.T) {
+func TestExamplesMultipleEndpoints(t *testing.T) {
 	t.Parallel()
 
 	rand.Seed(time.Now().UnixNano())
@@ -21,7 +21,7 @@ func TestExamplesComplete(t *testing.T) {
 
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../../examples/complete",
+		TerraformDir: "../../examples/multiple_endpoints",
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-1.tfvars"},
