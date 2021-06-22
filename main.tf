@@ -32,7 +32,7 @@ resource "aws_globalaccelerator_listener" "default" {
   protocol        = try(each.value.protocol, "TCP")
 
   dynamic "port_range" {
-    for_each = try(each.value.port_range, [{
+    for_each = try(each.value.port_ranges, [{
       from_port = 80
       to_port   = 80
     }])
