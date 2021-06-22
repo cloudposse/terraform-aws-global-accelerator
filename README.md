@@ -149,7 +149,7 @@ module "endpoint_group" {
 
 The following deploys Global Accelerator with endpoints in multiple regions:
 
-`hcl
+```hcl
 module "global_accelerator" {
   source = "cloudposse/global-accelerator/aws"
   # Cloud Posse recommends pinning every module to a specific version
