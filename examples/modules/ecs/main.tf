@@ -37,7 +37,7 @@ module "container_definition" {
 
 module "alb" {
   source  = "cloudposse/alb/aws"
-  version = "0.33.2"
+  version = "0.33.1"
 
   context = module.ecs_label.context
 
