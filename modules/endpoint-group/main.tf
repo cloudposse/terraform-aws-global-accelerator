@@ -18,7 +18,7 @@ data "aws_eip" "eip" {
 }
 
 resource "aws_globalaccelerator_endpoint_group" "default" {
-  count = module.this.enabled ? 1 : 0
+  count = local.enabled ? 1 : 0
 
   listener_arn                  = var.listener_arn
   endpoint_group_region         = try(var.config.endpoint_endpoint_group_region, null)
