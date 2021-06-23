@@ -296,9 +296,9 @@ Available targets:
 
 | Name | Description |
 |------|-------------|
-| <a name="output_global_accelerator_listener_ids"></a> [global\_accelerator\_listener\_ids](#output\_global\_accelerator\_listener\_ids) | Global Accelerator Listener IDs. |
-| <a name="output_global_accelerator_name"></a> [global\_accelerator\_name](#output\_global\_accelerator\_name) | Name of the Global Accelerator. |
-| <a name="output_global_accelerator_static_ips"></a> [global\_accelerator\_static\_ips](#output\_global\_accelerator\_static\_ips) | Global Static IPs owned by the Global Accelerator. |
+| <a name="output_listener_ids"></a> [listener\_ids](#output\_listener\_ids) | Global Accelerator Listener IDs. |
+| <a name="output_name"></a> [name](#output\_name) | Name of the Global Accelerator. |
+| <a name="output_static_ips"></a> [static\_ips](#output\_static\_ips) | Global Static IPs owned by the Global Accelerator. |
 <!-- markdownlint-restore -->
 
 
