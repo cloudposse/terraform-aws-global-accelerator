@@ -93,4 +93,6 @@ module "endpoint_group" {
       }
     ]
   }
+
+  depends_on = [module.ecs]
 }
