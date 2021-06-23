@@ -38,7 +38,7 @@ func TestExamplesMultipleEndpoints(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
   // Validate that the Global Accelerator has produced static IPv4 addresses.
-	staticIPs := terraform.OutputList(t, terraformOptions, "global_accelerator_static_ips")
+	staticIPs := terraform.OutputList(t, terraformOptions, "static_ips")
 	for _, staticIP := range staticIPs {
     assert.Regexp(t, regexp.MustCompile(`^(((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4})`), staticIP)
 	}
