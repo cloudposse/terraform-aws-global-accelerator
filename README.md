@@ -135,7 +135,7 @@ module "endpoint_group" {
 
   context = module.this.context
 
-  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
     endpoint_region = "us-east-2"
     endpoint_configuration = [
@@ -183,7 +183,7 @@ module "endpoint_group" {
 
   context = module.this.context
 
-  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
     endpoint_region = "us-east-2"
     endpoint_configuration = [
@@ -201,7 +201,7 @@ module "endpoint_group_failover" {
 
   context = module.failover_label.context
 
-  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
     endpoint_region = "us-west-2"
     endpoint_configuration = [
