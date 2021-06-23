@@ -20,7 +20,7 @@ module "endpoint_group" {
         endpoint_lb_name = "my-load-balancer"
       },
       {
-        endpoint_eip_address = "200.200.200.200"
+        endpoint_eip_address = "123.123.123.123"
       }
     ]
   }
