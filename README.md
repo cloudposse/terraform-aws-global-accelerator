@@ -29,7 +29,7 @@
 -->
 
 This module provisions AWS Global Accelerator. Multiple listeners can be specified when instantiating this module.
-The `endpoint-group` submodules provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
+The `endpoint-group` submodule provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
 in order to provision multiple Endpoint Groups.
 
 The reason why `endpoint-group` is its own submodule is because an AWS Provider needs to be instantiated for the region the Endpoint Group's endpoints reside in.
@@ -135,7 +135,7 @@ module "endpoint_group" {
 
   context = module.this.context
 
-  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
     endpoint_region = "us-east-2"
     endpoint_configuration = [
@@ -183,7 +183,7 @@ module "endpoint_group" {
 
   context = module.this.context
 
-  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
     endpoint_region = "us-east-2"
     endpoint_configuration = [
@@ -201,7 +201,7 @@ module "endpoint_group_failover" {
 
   context = module.failover_label.context
 
-  listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+  listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
     endpoint_region = "us-west-2"
     endpoint_configuration = [
@@ -296,9 +296,9 @@ Available targets:
 
 | Name | Description |
 |------|-------------|
-| <a name="output_global_accelerator_listener_ids"></a> [global\_accelerator\_listener\_ids](#output\_global\_accelerator\_listener\_ids) | Global Accelerator Listener IDs. |
-| <a name="output_global_accelerator_name"></a> [global\_accelerator\_name](#output\_global\_accelerator\_name) | Name of the Global Accelerator. |
-| <a name="output_global_accelerator_static_ips"></a> [global\_accelerator\_static\_ips](#output\_global\_accelerator\_static\_ips) | Global Static IPs owned by the Global Accelerator. |
+| <a name="output_listener_ids"></a> [listener\_ids](#output\_listener\_ids) | Global Accelerator Listener IDs. |
+| <a name="output_name"></a> [name](#output\_name) | Name of the Global Accelerator. |
+| <a name="output_static_ips"></a> [static\_ips](#output\_static\_ips) | Global Static IPs owned by the Global Accelerator. |
 <!-- markdownlint-restore -->
 
 

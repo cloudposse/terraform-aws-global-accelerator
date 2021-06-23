@@ -1,19 +1,19 @@
-output "global_accelerator_name" {
+output "name" {
   description = "Name of the Global Accelerator."
-  value       = module.global_accelerator.global_accelerator_name
+  value       = module.global_accelerator.name
 }
 
-output "global_accelerator_endpoint_group_ids" {
+output "endpoint_group_ids" {
   description = "Global Accelerator Endpoint Group IDs."
-  value       = module.endpoint_group.endpoint_group_id
+  value       = module.endpoint_group.id
 }
 
-output "global_accelerator_listener_ids" {
+output "listener_ids" {
   description = "Global Accelerator Listener IDs."
-  value       = module.global_accelerator.global_accelerator_listener_ids
+  value       = module.global_accelerator.listener_ids
 }
 
-output "global_accelerator_static_ips" {
+output "static_ips" {
   description = "Global Static IPs owned by the Global Accelerator."
-  value       = module.global_accelerator.global_accelerator_static_ips
+  value       = module.global_accelerator.static_ips
 }
