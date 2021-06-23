@@ -12,7 +12,7 @@ data "aws_lb" "lb" {
 }
 
 data "aws_eip" "eip" {
-  for_each = { for index, lb_name in local.eip_addresses : index => lb_name if lb_name != null }
+  for_each = { for index, eip_address in local.eip_addresses : index => eip_address if eip_address != null }
 
   public_ip = each.value
 }
