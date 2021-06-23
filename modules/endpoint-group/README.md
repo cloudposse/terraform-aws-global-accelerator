@@ -50,4 +50,4 @@ No requirements.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_endpoint_group_id"></a> [endpoint\_group\_id](#output\_endpoint\_group\_id) | n/a |
+| <a name="output_id"></a> [id](#output\_id) | n/a |

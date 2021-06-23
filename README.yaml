@@ -58,7 +58,7 @@ references:
 # Short description of this project
 description: |-
   This module provisions AWS Global Accelerator. Multiple listeners can be specified when instantiating this module.
-  The `endpoint-group` submodules provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
+  The `endpoint-group` submodule provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
   in order to provision multiple Endpoint Groups.
 
   The reason why `endpoint-group` is its own submodule is because an AWS Provider needs to be instantiated for the region the Endpoint Group's endpoints reside in.
@@ -107,7 +107,7 @@ usage: |-
 
     context = module.this.context
 
-    listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+    listener_arn = module.global_accelerator.listener_ids[0]
     config       = {
       endpoint_region = "us-east-2"
       endpoint_configuration = [
@@ -155,7 +155,7 @@ usage: |-
 
     context = module.this.context
 
-    listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+    listener_arn = module.global_accelerator.listener_ids[0]
     config       = {
       endpoint_region = "us-east-2"
       endpoint_configuration = [
@@ -173,7 +173,7 @@ usage: |-
 
     context = module.failover_label.context
 
-    listener_arn = module.global_accelerator.global_accelerator_listener_ids[0]
+    listener_arn = module.global_accelerator.listener_ids[0]
     config       = {
       endpoint_region = "us-west-2"
       endpoint_configuration = [
