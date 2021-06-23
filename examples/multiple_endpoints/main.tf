@@ -158,10 +158,12 @@ module "endpoint_group" {
     endpoint_region = var.region
     endpoint_configuration = [
       {
-        endpoint_id = module.ecs.alb_name
+        endpoint_lb_name = module.ecs.alb_name
       }
     ]
   }
+
+  depends_on = [module.ecs]
 }
 
 module "endpoint_group_failover" {
@@ -174,7 +176,7 @@ module "endpoint_group_failover" {
     endpoint_region = var.failover_region
     endpoint_configuration = [
       {
-        endpoint_id = module.ecs_failover.alb_name
+        endpoint_lb_name = module.ecs_failover.alb_name
       }
     ]
   }
@@ -182,4 +184,6 @@ module "endpoint_group_failover" {
   providers = {
     aws = aws.failover
   }
+
+  depends_on = [module.ecs_failover]
 }
