@@ -158,7 +158,7 @@ module "endpoint_group" {
     endpoint_region = var.region
     endpoint_configuration = [
       {
-        endpoint_id = module.ecs.alb_arn
+        endpoint_id = module.ecs.alb_name
       }
     ]
   }
@@ -174,7 +174,7 @@ module "endpoint_group_failover" {
     endpoint_region = var.failover_region
     endpoint_configuration = [
       {
-        endpoint_id = module.ecs_failover.alb_arn
+        endpoint_id = module.ecs_failover.alb_name
       }
     ]
   }

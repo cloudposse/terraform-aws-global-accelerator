@@ -2,19 +2,12 @@ locals {
   enabled                 = module.this.enabled
   endpoint_configurations = try(length(var.config.endpoint_configuration), 0) > 0 ? var.config.endpoint_configuration : []
   lb_names                = compact([ for configuration in local.endpoint_configurations : try(configuration.endpoint_lb_name, null) ])
-  eip_addresses           = compact([ for configuration in local.endpoint_configurations : try(configuration.endpoint_eip_address, null) ])
 }
 
 data "aws_lb" "lb" {
   for_each = toset(local.lb_names)
 
   name = each.value
-}
-
-data "aws_eip" "eip" {
-  for_each = toset(local.eip_addresses)
-
-  public_ip = each.value
 }
 
 resource "aws_globalaccelerator_endpoint_group" "default" {
@@ -34,7 +27,7 @@ resource "aws_globalaccelerator_endpoint_group" "default" {
 
     content {
       client_ip_preservation_enabled = try(endpoint_configuration.value.client_ip_preservation_enabled, null)
-      endpoint_id                    = try(endpoint_configuration.value.endpoint_id, data.aws_lb.lb[endpoint_configuration.value.endpoint_lb_name].id, data.aws_eip.eip[endpoint_configuration.value.endpoint_eip_address].id, null)
+      endpoint_id                    = try(endpoint_configuration.value.endpoint_id, data.aws_lb.lb[endpoint_configuration.value.endpoint_lb_name].id, null)
       weight                         = try(endpoint_configuration.value.weight, null)
     }
   }
