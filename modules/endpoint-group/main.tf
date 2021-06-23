@@ -1,6 +1,6 @@
 locals {
   enabled                 = module.this.enabled
-  endpoint_configurations = try(var.config.endpoint_configuration, toset([]))
+  endpoint_configurations = try(var.config.endpoint_configuration, null) != null ? var.config.endpoint_configuration : []
   lb_names                = { for index, configuration in local.endpoint_configurations : index => try(configuration.endpoint_lb_name, null) }
   eip_addresses           = { for index, configuration in local.endpoint_configurations : index => try(configuration.endpoint_eip_address, null) }
 }
