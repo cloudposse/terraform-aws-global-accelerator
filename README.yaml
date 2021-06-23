@@ -58,7 +58,7 @@ references:
 # Short description of this project
 description: |-
   This module provisions AWS Global Accelerator. Multiple listeners can be specified when instantiating this module.
-  The `endpoint-group` submodules provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
+  The `endpoint-group` submodule provisions a Global Accelerator Endpoint Group for a listener created by this module and can be instantiated multiple times
   in order to provision multiple Endpoint Groups.
 
   The reason why `endpoint-group` is its own submodule is because an AWS Provider needs to be instantiated for the region the Endpoint Group's endpoints reside in.
