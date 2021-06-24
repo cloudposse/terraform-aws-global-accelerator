@@ -54,6 +54,7 @@
 
 | Name | Description |
 |------|-------------|
+| <a name="output_dns_name"></a> [dns\_name](#output\_dns\_name) | DNS name of the Global Accelerator. |
 | <a name="output_listener_ids"></a> [listener\_ids](#output\_listener\_ids) | Global Accelerator Listener IDs. |
 | <a name="output_name"></a> [name](#output\_name) | Name of the Global Accelerator. |
 | <a name="output_static_ips"></a> [static\_ips](#output\_static\_ips) | Global Static IPs owned by the Global Accelerator. |
