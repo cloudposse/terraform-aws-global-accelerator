@@ -33,6 +33,7 @@ The `endpoint-group` submodule provisions a Global Accelerator Endpoint Group fo
 in order to provision multiple Endpoint Groups.
 
 The reason why `endpoint-group` is its own submodule is because an AWS Provider needs to be instantiated for the region the Endpoint Group's endpoints reside in.
+For more information, see the [endpoint-group documentation](modules/endpoint-group/README.md).
 
 ---
 
@@ -140,7 +141,7 @@ module "endpoint_group" {
     endpoint_region = "us-east-2"
     endpoint_configuration = [
       {
-        endpoint_id = "arn:aws:elasticloadbalancing:us-east-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+        endpoint_lb_name = "my-load-balancer"
       }
     ]
   }
@@ -188,7 +189,7 @@ module "endpoint_group" {
     endpoint_region = "us-east-2"
     endpoint_configuration = [
       {
-        endpoint_id = "arn:aws:elasticloadbalancing:us-east-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+        endpoint_lb_name = "my-load-balancer"
       }
     ]
   }
@@ -206,7 +207,7 @@ module "endpoint_group_failover" {
     endpoint_region = "us-west-2"
     endpoint_configuration = [
       {
-        endpoint_id = "arn:aws:elasticloadbalancing:us-west-2:123456789012:loadbalancer/app/my-load-balancer/50dc6c495c0c9188"
+        endpoint_lb_name = "my-failover-load-balancer"
       }
     ]
   }

@@ -1,9 +1,17 @@
 locals {
-  enabled = module.this.enabled
+  enabled                 = module.this.enabled
+  endpoint_configurations = try(length(var.config.endpoint_configuration), 0) > 0 ? var.config.endpoint_configuration : []
+  lb_names                = compact([for configuration in local.endpoint_configurations : try(configuration.endpoint_lb_name, null)])
+}
+
+data "aws_lb" "lb" {
+  for_each = toset(local.lb_names)
+
+  name = each.value
 }
 
 resource "aws_globalaccelerator_endpoint_group" "default" {
-  count = module.this.enabled ? 1 : 0
+  count = local.enabled ? 1 : 0
 
   listener_arn                  = var.listener_arn
   endpoint_group_region         = try(var.config.endpoint_endpoint_group_region, null)
@@ -15,11 +23,11 @@ resource "aws_globalaccelerator_endpoint_group" "default" {
   traffic_dial_percentage       = try(var.config.traffic_dial_percentage, null)
 
   dynamic "endpoint_configuration" {
-    for_each = try(var.config.endpoint_configuration, toset([]))
+    for_each = local.endpoint_configurations
 
     content {
       client_ip_preservation_enabled = try(endpoint_configuration.value.client_ip_preservation_enabled, null)
-      endpoint_id                    = try(endpoint_configuration.value.endpoint_id, null)
+      endpoint_id                    = try(endpoint_configuration.value.endpoint_id, data.aws_lb.lb[endpoint_configuration.value.endpoint_lb_name].id, null)
       weight                         = try(endpoint_configuration.value.weight, null)
     }
   }

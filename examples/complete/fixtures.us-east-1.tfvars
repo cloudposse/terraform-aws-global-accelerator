@@ -2,7 +2,7 @@ region = "us-east-1"
 
 namespace = "eg"
 
-environment = "ue2"
+environment = "ue1"
 
 stage = "test"
 

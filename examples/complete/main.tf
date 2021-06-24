@@ -89,8 +89,10 @@ module "endpoint_group" {
     endpoint_region = var.region
     endpoint_configuration = [
       {
-        endpoint_id = module.ecs.alb_arn
+        endpoint_lb_name = module.ecs.alb_name
       }
     ]
   }
+
+  depends_on = [module.ecs]
 }
