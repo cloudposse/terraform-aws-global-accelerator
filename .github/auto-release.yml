@@ -51,3 +51,6 @@ replacers:
 # Remove Renovate bot banner image
 - search: '/\[!\[[^\]]*Renovate\][^\]]*\](\([^)]*\))?\s*\n+/gm'
   replace: ''
+
+exclude-labels:
+  - 'skip-release'
