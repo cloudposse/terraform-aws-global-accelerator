@@ -80,8 +80,6 @@ usage: |-
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
 
-    context = module.this.context
-
     ip_address_type     = "IPV4"
     flow_logs_enabled   = true
     flow_logs_s3_prefix = "logs/"
@@ -99,14 +97,14 @@ usage: |-
         ]
       }
     ]
+
+    context = module.this.context
   }
 
   module "endpoint_group" {
     source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
-
-    context = module.this.context
 
     listener_arn = module.global_accelerator.listener_ids[0]
     config       = {
@@ -117,6 +115,8 @@ usage: |-
         }
       ]
     }
+
+    context = module.this.context
   }
   ```
 
@@ -128,8 +128,6 @@ usage: |-
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
 
-    context = module.this.context
-
     ip_address_type     = "IPV4"
     flow_logs_enabled   = true
     flow_logs_s3_prefix = "logs/"
@@ -147,14 +145,14 @@ usage: |-
         ]
       }
     ]
+
+    context = module.this.context
   }
 
   module "endpoint_group" {
     source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
-
-    context = module.this.context
 
     listener_arn = module.global_accelerator.listener_ids[0]
     config       = {
@@ -165,14 +163,14 @@ usage: |-
         }
       ]
     }
+
+    context = module.this.context
   }
 
   module "endpoint_group_failover" {
     source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
     # Cloud Posse recommends pinning every module to a specific version
     # version     = "x.x.x"
-
-    context = module.failover_label.context
 
     listener_arn = module.global_accelerator.listener_ids[0]
     config       = {
@@ -185,8 +183,10 @@ usage: |-
     }
 
     providers = {
-     aws = aws.failover
+      aws = aws.failover
     }
+
+    context = module.failover_label.context
   }
   ```
 
@@ -209,3 +209,5 @@ include:
 contributors:
   - name: "Yonatan Koren"
     github: "korenyoni"
+  - name: "RB"
+    github: "nitrocode"
