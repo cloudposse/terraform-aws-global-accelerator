@@ -108,8 +108,6 @@ module "global_accelerator" {
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
 
-  context = module.this.context
-
   ip_address_type     = "IPV4"
   flow_logs_enabled   = true
   flow_logs_s3_prefix = "logs/"
@@ -127,14 +125,14 @@ module "global_accelerator" {
       ]
     }
   ]
+
+  context = module.this.context
 }
 
 module "endpoint_group" {
   source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
-
-  context = module.this.context
 
   listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
@@ -145,6 +143,8 @@ module "endpoint_group" {
       }
     ]
   }
+
+  context = module.this.context
 }
 ```
 
@@ -156,8 +156,6 @@ module "global_accelerator" {
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
 
-  context = module.this.context
-
   ip_address_type     = "IPV4"
   flow_logs_enabled   = true
   flow_logs_s3_prefix = "logs/"
@@ -175,14 +173,14 @@ module "global_accelerator" {
       ]
     }
   ]
+
+  context = module.this.context
 }
 
 module "endpoint_group" {
   source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
-
-  context = module.this.context
 
   listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
@@ -193,14 +191,14 @@ module "endpoint_group" {
       }
     ]
   }
+
+  context = module.this.context
 }
 
 module "endpoint_group_failover" {
   source = "cloudposse/global-accelerator/aws//modules/endpoint-group"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
-
-  context = module.failover_label.context
 
   listener_arn = module.global_accelerator.listener_ids[0]
   config       = {
@@ -213,8 +211,10 @@ module "endpoint_group_failover" {
   }
 
   providers = {
-   aws = aws.failover
+    aws = aws.failover
   }
+
+  context = module.failover_label.context
 }
 ```
 
@@ -405,7 +405,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyrights
 
-Copyright © 2021-2021 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2022-2022 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
@@ -465,12 +465,14 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 ### Contributors
 
 <!-- markdownlint-disable -->
-|  [![Yonatan Koren][korenyoni_avatar]][korenyoni_homepage]<br/>[Yonatan Koren][korenyoni_homepage] |
-|---|
+|  [![Yonatan Koren][korenyoni_avatar]][korenyoni_homepage]<br/>[Yonatan Koren][korenyoni_homepage] | [![RB][nitrocode_avatar]][nitrocode_homepage]<br/>[RB][nitrocode_homepage] |
+|---|---|
 <!-- markdownlint-restore -->
 
   [korenyoni_homepage]: https://github.com/korenyoni
   [korenyoni_avatar]: https://img.cloudposse.com/150x150/https://github.com/korenyoni.png
+  [nitrocode_homepage]: https://github.com/nitrocode
+  [nitrocode_avatar]: https://img.cloudposse.com/150x150/https://github.com/nitrocode.png
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
