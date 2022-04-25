@@ -28,7 +28,7 @@ resource "aws_globalaccelerator_listener" "default" {
   for_each = local.listeners
 
   accelerator_arn = aws_globalaccelerator_accelerator.default[0].id
-  client_affinity = try(each.value.cluster_affinity, null)
+  client_affinity = try(each.value.client_affinity, null)
   protocol        = try(each.value.protocol, "TCP")
 
   dynamic "port_range" {
