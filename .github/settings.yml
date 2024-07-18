@@ -5,3 +5,4 @@ repository:
   description: Terraform module to configure AWS Global Accelerator
   homepage: https://cloudposse.com/accelerate
   topics: terraform, compliance, security
+
