@@ -3,7 +3,7 @@
 <!-- markdownlint-disable -->
 <a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse/terraform-aws-global-accelerator/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
     <p align="right">
-<a href="https://github.com/cloudposse/terraform-aws-global-accelerator/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-aws-global-accelerator.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/terraform-aws-global-accelerator/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/terraform-aws-global-accelerator.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a></p>
+<a href="https://github.com/cloudposse/terraform-aws-global-accelerator/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/terraform-aws-global-accelerator.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/terraform-aws-global-accelerator/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/terraform-aws-global-accelerator.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://cloudposse.com/slack"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a></p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -42,7 +42,7 @@ For more information, see the [endpoint-group documentation](modules/endpoint-gr
 >
 > <details>
 > <summary><strong>Watch demo of using Atmos with Terraform</strong></summary>
-> <img src="https://github.com/cloudposse/atmos/blob/master/docs/demo.gif?raw=true"/><br/>
+> <img src="https://github.com/cloudposse/atmos/blob/main/docs/demo.gif?raw=true"/><br/>
 > <i>Example of running <a href="https://atmos.tools"><code>atmos</code></a> to manage infrastructure from our <a href="https://atmos.tools/quick-start/">Quick Start</a> tutorial.</i>
 > </detalis>
 
@@ -192,18 +192,6 @@ Here are some examples of using this module:
 
 
 <!-- markdownlint-disable -->
-## Makefile Targets
-```text
-Available targets:
-
-  help                                Help screen
-  help/all                            Display help for all targets
-  help/short                          This help short screen
-  lint                                Lint terraform code
-
-```
-<!-- markdownlint-restore -->
-<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -268,6 +256,11 @@ Available targets:
 | <a name="output_name"></a> [name](#output\_name) | Name of the Global Accelerator. |
 | <a name="output_static_ips"></a> [static\_ips](#output\_static\_ips) | Global Static IPs owned by the Global Accelerator. |
 <!-- markdownlint-restore -->
+
+
+
+
+
 
 
 ## Related Projects
@@ -403,7 +396,7 @@ All other trademarks referenced herein are the property of their respective owne
 
 ## Copyrights
 
-Copyright © 2021-2024 [Cloud Posse, LLC](https://cloudposse.com)
+Copyright © 2021-2025 [Cloud Posse, LLC](https://cloudposse.com)
 
 
 
