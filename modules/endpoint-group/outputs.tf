@@ -1,3 +1,4 @@
 output "id" {
-  value = try(aws_globalaccelerator_endpoint_group.default[0].id, null)
+  value       = try(aws_globalaccelerator_endpoint_group.default[0].id, null)
+  description = "Endpoint group ID"
 }
