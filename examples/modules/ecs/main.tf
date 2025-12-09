@@ -8,9 +8,20 @@ module "ecs_label" {
 
 resource "aws_ecs_cluster" "default" {
   name               = module.this.id
-  capacity_providers = ["FARGATE"]
 
   tags = module.ecs_label.tags
+}
+
+resource "aws_ecs_cluster_capacity_providers" "default" {
+  cluster_name = aws_ecs_cluster.default.name
+
+  capacity_providers = ["FARGATE"]
+
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 100
+    capacity_provider = "FARGATE"
+  }
 }
 
 module "container_definition" {

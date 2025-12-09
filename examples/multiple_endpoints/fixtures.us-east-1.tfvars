@@ -1,4 +1,4 @@
-region = "us-east-1"
+region = "us-east-2"
 
 namespace = "eg"
 
@@ -10,7 +10,7 @@ name = "gbl-acc"
 
 alb_listener_port = 80
 
-availability_zones = ["us-east-1a", "us-east-1b"]
+availability_zones = ["us-east-2a", "us-east-2b"]
 
 ecs_configuration = {
   container_name               = "default-backend"
@@ -25,8 +25,8 @@ ecs_configuration = {
 
 vpc_cidr_block = "172.16.0.0/16"
 
-failover_region = "us-west-2"
+failover_region = "us-east-1"
 
 failover_vpc_cidr_block = "172.17.0.0/16"
 
-failover_availability_zones = ["us-west-2a", "us-west-2b"]
+failover_availability_zones = ["us-east-1a", "us-east-1b"]
