@@ -24,7 +24,7 @@ func TestExamplesComplete(t *testing.T) {
 		TerraformDir: "../../examples/complete",
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
-		VarFiles: []string{"fixtures.us-east-1.tfvars"},
+		VarFiles: []string{"fixtures.us-east-2.tfvars"},
 		// We always include a random attribute so that parallel tests
 		// and AWS resources do not interfere with each other
 		Vars: map[string]interface{}{
