@@ -7,8 +7,7 @@ module "ecs_label" {
 }
 
 resource "aws_ecs_cluster" "default" {
-  name               = module.this.id
-
+  name = module.this.id
   tags = module.ecs_label.tags
 }
 
