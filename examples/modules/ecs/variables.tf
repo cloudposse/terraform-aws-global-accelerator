@@ -17,6 +17,8 @@ variable "container_configuration" {
     memory_reservation = number
     cpu                = number
   })
+
+  description = "Container configuration"
 }
 
 variable "health_check_path" {

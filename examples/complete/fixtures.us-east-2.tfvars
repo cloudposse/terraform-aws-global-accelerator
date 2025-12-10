@@ -1,8 +1,8 @@
-region = "us-east-1"
+region = "us-east-2"
 
 namespace = "eg"
 
-environment = "ue1"
+environment = "ue2"
 
 stage = "test"
 
@@ -10,7 +10,7 @@ name = "gbl-acc"
 
 alb_listener_port = 80
 
-availability_zones = ["us-east-1a", "us-east-1b"]
+availability_zones = ["us-east-2a", "us-east-2b"]
 
 ecs_configuration = {
   container_name               = "default-backend"

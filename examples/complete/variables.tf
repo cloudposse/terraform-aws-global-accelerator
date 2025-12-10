@@ -24,6 +24,8 @@ variable "ecs_configuration" {
     health_check_path            = string
     host_port                    = number
   })
+
+  description = "ECS configuration"
 }
 
 variable "vpc_cidr_block" {
